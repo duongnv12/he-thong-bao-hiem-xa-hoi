@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng Admin, <strong><%= user.username %></strong>! <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/admin/dashboard">Quay lại Admin Dashboard</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <% if (typeof message !== 'undefined' && message) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+
+        <h2>Cấu hình tỷ lệ và tham số bảo hiểm</h2>
+        <form action="/admin/config" method="POST">
+            <div>
+                <label for="bhxh_ty_le">Tỷ lệ BHXH NLĐ (%):</label>
+                <input type="number" id="bhxh_ty_le" name="bhxh_ty_le" step="0.001" min="0" max="1" value="<%= config.BHXH_TY_LE_NGUOI_LAO_DONG %>" required>
+            </div>
+            <div>
+                <label for="bhyt_ty_le">Tỷ lệ BHYT NLĐ (%):</label>
+                <input type="number" id="bhyt_ty_le" name="bhyt_ty_le" step="0.001" min="0" max="1" value="<%= config.BHYT_TY_LE_NGUOI_LAO_DONG %>" required>
+            </div>
+            <div>
+                <label for="bhtn_ty_le">Tỷ lệ BHTN NLĐ (%):</label>
+                <input type="number" id="bhtn_ty_le" name="bhtn_ty_le" step="0.001" min="0" max="1" value="<%= config.BHTN_TY_LE_NGUOI_LAO_DONG %>" required>
+            </div>
+            <div>
+                <label for="luong_co_so_toi_thieu">Mức lương cơ sở tối thiểu (VNĐ):</label>
+                <input type="number" id="luong_co_so_toi_thieu" name="luong_co_so_toi_thieu" step="1" min="0" value="<%= config.LUONG_CO_SO_TOI_THIEU %>" required>
+            </div>
+            <div>
+                <label for="luong_toi_da_he_so">Hệ số trần lương đóng BHXH (x lương cơ sở):</label>
+                <input type="number" id="luong_toi_da_he_so" name="luong_toi_da_he_so" step="1" min="1" value="<%= config.LUONG_TOI_DA_DONG_BHXH_HE_SO %>" required>
+            </div>
+            <button type="submit" class="btn-primary">Lưu cấu hình</button>
+        </form>
+        <p class="config-note text-center">Lưu ý: Để các thay đổi cấu hình này có hiệu lực vĩnh viễn, bạn cần triển khai cơ chế lưu vào CSDL.</p>
+    </div>
+</body>
+</html>

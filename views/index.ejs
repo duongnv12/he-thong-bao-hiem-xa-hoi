@@ -7,10 +7,30 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1><%= title %></h1>
-    <p>Chào mừng bạn đến với hệ thống tính phí bảo hiểm xã hội.</p>
-    <a href="/register">Đăng ký</a> | <a href="/login">Đăng nhập</a>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng bạn đến với hệ thống tính phí bảo hiểm xã hội.</p>
 
-    <script src="/js/main.js"></script>
+        <% if (user) { %>
+            <p class="text-center">Xin chào, <strong><%= user.username %></strong>! </p>
+            <div class="links-group">
+                <a href="/dashboard" class="button btn-primary">Dashboard</a>
+                <a href="/logout" class="button btn-secondary">Đăng xuất</a>
+            </div>
+        <% } else { %>
+            <div class="links-group">
+                <a href="/register" class="button btn-primary">Đăng ký</a>
+                <a href="/login" class="button btn-secondary">Đăng nhập</a>
+            </div>
+        <% } %>
+
+        <% if (typeof message !== 'undefined' && message) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+    </div>
 </body>
 </html>

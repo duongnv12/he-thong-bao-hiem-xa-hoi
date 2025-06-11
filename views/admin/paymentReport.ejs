@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng Admin, <strong><%= user.username %></strong>! <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/admin/dashboard">Quay lại Admin Dashboard</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <h2>Lọc báo cáo</h2>
+        <form action="/admin/payments/report" method="GET" class="filter-form">
+            <label for="startDate">Từ ngày:</label>
+            <input type="date" id="startDate" name="startDate" value="<%= startDate %>">
+            <label for="endDate">Đến ngày:</label>
+            <input type="date" id="endDate" name="endDate" value="<%= endDate %>">
+            <button type="submit" class="btn-primary">Lọc</button>
+        </form>
+
+        <h2>Báo cáo thanh toán</h2>
+        <% if (payments && payments.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Giao dịch</th>
+                        <th>Tên người dùng</th>
+                        <th>Email</th>
+                        <th>Họ và tên</th>
+                        <th>Số tiền (VNĐ)</th>
+                        <th>Phương thức</th>
+                        <th>Trạng thái</th>
+                        <th>Mã giao dịch</th>
+                        <th>Ngày thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach(p => { %>
+                        <tr>
+                            <td><%= p.id %></td>
+                            <td><%= p.username %></td>
+                            <td><%= p.email %></td>
+                            <td><%= p.full_name || 'N/A' %></td>
+                            <td><%= parseFloat(p.amount).toLocaleString('vi-VN') %></td>
+                            <td><%= p.payment_method %></td>
+                            <td><%= p.status %></td>
+                            <td><%= p.transaction_code || 'N/A' %></td>
+                            <td><%= new Date(p.payment_date).toLocaleString('vi-VN') %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="text-center">Không có dữ liệu thanh toán nào để hiển thị theo bộ lọc này.</p>
+        <% } %>
+    </div>
+</body>
+</html>

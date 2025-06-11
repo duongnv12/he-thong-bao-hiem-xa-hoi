@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng, <strong><%= user.username %></strong>! <a href="/dashboard">Dashboard</a> | <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/profile/payment">Thanh toán phí bảo hiểm</a> | <a href="/profile/payment-history">Lịch sử thanh toán</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <% if (typeof message !== 'undefined' && message) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+
+        <h2>Khai báo thông tin cá nhân</h2>
+        <form action="/profile/save" method="POST">
+            <div>
+                <label for="fullName">Họ và tên:</label>
+                <input type="text" id="fullName" name="fullName" value="<%= profile ? profile.full_name : '' %>" required>
+            </div>
+            <div>
+                <label for="dateOfBirth">Ngày sinh:</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" value="<%= profile && profile.date_of_birth ? new Date(profile.date_of_birth).toISOString().split('T')[0] : '' %>" required>
+            </div>
+            <div>
+                <label for="gender">Giới tính:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">--Chọn--</option>
+                    <option value="Nam" <%= profile && profile.gender === 'Nam' ? 'selected' : '' %>>Nam</option>
+                    <option value="Nữ" <%= profile && profile.gender === 'Nữ' ? 'selected' : '' %>>Nữ</option>
+                    <option value="Khác" <%= profile && profile.gender === 'Khác' ? 'selected' : '' %>>Khác</option>
+                </select>
+            </div>
+            <div>
+                <label for="identityCardNumber">Số CCCD/CMND:</label>
+                <input type="text" id="identityCardNumber" name="identityCardNumber" value="<%= profile ? profile.identity_card_number : '' %>">
+            </div>
+            <div>
+                <label for="socialInsuranceCode">Mã số BHXH:</label>
+                <input type="text" id="socialInsuranceCode" name="socialInsuranceCode" value="<%= profile ? profile.social_insurance_code : '' %>">
+            </div>
+            <div>
+                <label for="address">Địa chỉ:</label>
+                <textarea id="address" name="address" rows="3"><%= profile ? profile.address : '' %></textarea>
+            </div>
+            <div>
+                <label for="occupation">Nghề nghiệp:</label>
+                <input type="text" id="occupation" name="occupation" value="<%= profile ? profile.occupation : '' %>">
+            </div>
+            <div>
+                <label for="region">Vùng:</label>
+                <select id="region" name="region" required>
+                    <option value="">--Chọn vùng--</option>
+                    <% regions.forEach(r => { %>
+                        <option value="<%= r.region_name %>" <%= profile && profile.region === r.region_name ? 'selected' : '' %>>
+                            <%= r.region_name %> (Tối thiểu: <%= parseFloat(r.min_monthly_wage).toLocaleString('vi-VN') %> VNĐ)
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="declaredSalary">Mức lương khai báo (VNĐ):</label>
+                <input type="number" id="declaredSalary" name="declaredSalary" value="<%= profile ? profile.declared_salary : '' %>" step="1000" min="0" required>
+                <p>Mức lương đóng BHXH sẽ tự động điều chỉnh không thấp hơn mức lương tối thiểu vùng bạn chọn.</p>
+            </div>
+            <button type="submit">Lưu thông tin</button>
+        </form>
+
+        <hr>
+        <h2>Tính toán phí bảo hiểm</h2>
+        <form action="/profile/calculate" method="GET">
+            <button type="submit" class="btn-success">Tính phí bảo hiểm</button>
+        </form>
+
+        <% if (calculatedFee) { %>
+            <div class="result-box">
+                <h3>Kết quả tính phí bảo hiểm xã hội</h3>
+                <p><strong>Mức lương khai báo ban đầu:</strong> <%= calculatedFee.declaredSalary.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Mức lương tối thiểu vùng áp dụng:</strong> <%= calculatedFee.minSalaryApplied.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Mức lương áp dụng tính BHXH:</strong> <%= calculatedFee.salaryAppliedForCalculation.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Phí Bảo hiểm xã hội (<%= calculatedFee.bhxhRate %>%):</strong> <%= calculatedFee.bhxhFee.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Phí Bảo hiểm y tế (<%= calculatedFee.bhytRate %>%):</strong> <%= calculatedFee.bhytFee.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Phí Bảo hiểm thất nghiệp (<%= calculatedFee.bhtnRate %>%):</strong> <%= calculatedFee.bhtnFee.toLocaleString('vi-VN') %> VNĐ</p>
+                <p><strong>Tổng cộng phí phải đóng (<%= calculatedFee.totalRate %>%):</strong> <strong style="color: var(--danger-color);"><%= calculatedFee.totalFee.toLocaleString('vi-VN') %> VNĐ</strong></p>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

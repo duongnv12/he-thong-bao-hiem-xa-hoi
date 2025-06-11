@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng Admin, <strong><%= user.username %></strong>! <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/admin/dashboard">Quay lại Admin Dashboard</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <h2>Danh sách người dùng và thông tin khai báo</h2>
+        <% if (users && users.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Họ và tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Vùng</th> {# Thêm cột Vùng #}
+                        <th>CCCD/CMND</th>
+                        <th>Mã BHXH</th>
+                        <th>Địa chỉ</th>
+                        <th>Nghề nghiệp</th>
+                        <th>Lương khai báo</th>
+                        <th>Là Admin</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                        <tr>
+                            <td><%= u.id %></td>
+                            <td><%= u.username %></td>
+                            <td><%= u.email %></td>
+                            <td><%= u.full_name || 'N/A' %></td>
+                            <td><%= u.date_of_birth ? new Date(u.date_of_birth).toLocaleDateString('vi-VN') : 'N/A' %></td>
+                            <td><%= u.gender || 'N/A' %></td>
+                            <td><%= u.region || 'N/A' %></td> {# Hiển thị Vùng #}
+                            <td><%= u.identity_card_number || 'N/A' %></td>
+                            <td><%= u.social_insurance_code || 'N/A' %></td>
+                            <td><%= u.address || 'N/A' %></td>
+                            <td><%= u.occupation || 'N/A' %></td>
+                            <td><%= u.declared_salary ? parseFloat(u.declared_salary).toLocaleString('vi-VN') + ' VNĐ' : 'N/A' %></td>
+                            <td><%= u.is_admin ? 'Có' : 'Không' %></td>
+                            <td><%= new Date(u.created_at).toLocaleString('vi-VN') %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="text-center">Không có người dùng nào trong hệ thống.</p>
+        <% } %>
+    </div>
+</body>
+</html>

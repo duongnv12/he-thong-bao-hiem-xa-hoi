@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng, <strong><%= user.username %></strong>! <a href="/dashboard">Dashboard</a> | <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/profile/declare">Khai báo và tính phí bảo hiểm</a> | <a href="/profile/payment-history">Lịch sử thanh toán</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <% if (typeof message !== 'undefined' && message) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+
+        <h2>Chi tiết thanh toán</h2>
+        <div class="payment-info result-box"> 
+            <h3>Số tiền cần thanh toán cho kỳ này:</h3>
+            <p style="font-size: 1.5em; font-weight: bold; color: var(--danger-color);"><%= parseFloat(totalFee).toLocaleString('vi-VN') %> VNĐ</p>
+            <input type="hidden" id="amountToPay" value="<%= totalFee %>"> 
+        </div>
+
+        <h2>Chọn phương thức thanh toán</h2>
+        <form action="/profile/payment" method="POST">
+            <input type="hidden" name="amount" value="<%= totalFee %>">
+
+            <div>
+                <label for="paymentMethod">Phương thức:</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="">--Chọn phương thức--</option>
+                    <option value="Bank Transfer">Chuyển khoản Ngân hàng</option>
+                    <option value="E-Wallet">Ví điện tử (Momo, ZaloPay...)</option>
+                    <option value="Cash">Tiền mặt (qua điểm giao dịch)</option>
+                </select>
+            </div>
+            <div>
+                <label for="transactionCode">Mã giao dịch (nếu có):</label>
+                <input type="text" id="transactionCode" name="transactionCode" placeholder="Mã giao dịch của bạn (tùy chọn)">
+            </div>
+            <button type="submit" class="btn-success">Xác nhận thanh toán</button>
+        </form>
+    </div>
+</body>
+</html>

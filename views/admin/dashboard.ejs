@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng Admin, <strong><%= user.username %></strong>! <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        
+        <div class="admin-menu">
+            <h2>Menu quản trị</h2>
+            <ul>
+                <li><a href="/admin/users">Theo dõi danh sách người tham gia</a></li>
+                <li><a href="/admin/payments/report">Xuất báo cáo thanh toán</a></li>
+                <li><a href="/admin/config">Cấu hình hệ thống</a></li>
+                <li><a href="/dashboard">Quay lại Dashboard người dùng</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

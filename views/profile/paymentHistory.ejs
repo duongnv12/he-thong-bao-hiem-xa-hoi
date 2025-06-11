@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <p class="text-center">Chào mừng, <strong><%= user.username %></strong>! <a href="/dashboard">Dashboard</a> | <a href="/logout">Đăng xuất</a></p>
+        <hr>
+        <p class="text-center"><a href="/profile/declare">Khai báo và tính phí bảo hiểm</a> | <a href="/profile/payment">Thanh toán phí bảo hiểm</a></p>
+        <hr>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <% if (typeof message !== 'undefined' && message) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+
+        <h2>Lịch sử thanh toán của bạn</h2>
+        <% if (payments && payments.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Số tiền (VNĐ)</th>
+                        <th>Phương thức</th>
+                        <th>Mã giao dịch</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach(payment => { %>
+                        <tr>
+                            <td><%= payment.id %></td>
+                            <td><%= parseFloat(payment.amount).toLocaleString('vi-VN') %></td>
+                            <td><%= payment.payment_method %></td>
+                            <td><%= payment.transaction_code || 'N/A' %></td>
+                            <td><%= payment.status %></td>
+                            <td><%= new Date(payment.payment_date).toLocaleString('vi-VN') %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="text-center">Bạn chưa có lịch sử thanh toán nào.</p>
+        <% } %>
+    </div>
+</body>
+</html>

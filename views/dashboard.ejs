@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <% if (user) { %>
+            <p class="text-center">Chào mừng, <strong><%= user.username %></strong>! Bạn đã đăng nhập thành công.</p>
+            <p class="text-center">ID của bạn: <%= user.id %></p>
+            <p class="text-center">Email của bạn: <%= user.email %></p>
+            
+            <div class="links-group">
+                <a href="/profile/declare" class="button btn-primary">Khai báo và tính phí bảo hiểm</a>
+                <a href="/profile/payment" class="button btn-primary">Thanh toán phí bảo hiểm</a>
+                <a href="/profile/payment-history" class="button btn-primary">Lịch sử thanh toán</a>
+            </div>
+            <hr>
+            <p class="text-center"><a href="/logout" class="button btn-secondary">Đăng xuất</a></p>
+        <% } else { %>
+            <p class="text-center">Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
+        <% } %>
+    </div>
+</body>
+</html>
