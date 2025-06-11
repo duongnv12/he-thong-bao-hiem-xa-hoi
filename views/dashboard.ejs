@@ -13,7 +13,7 @@
             <p class="error"><%= error %></p>
         <% } %>
         <% if (user) { %>
-            <p class="text-center">Chào mừng, <strong><%= user.username %></strong>! Bạn đã đăng nhập thành công.</p>
+            <p class="text-center" id="welcome-message">Chào mừng, <strong><%= user.username %></strong>! Bạn đã đăng nhập thành công.</p>
             <p class="text-center">ID của bạn: <%= user.id %></p>
             <p class="text-center">Email của bạn: <%= user.email %></p>
             

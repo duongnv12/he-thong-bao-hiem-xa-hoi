@@ -32,6 +32,7 @@
                         <th>Mã giao dịch</th>
                         <th>Trạng thái</th>
                         <th>Ngày thanh toán</th>
+                        <th>Tải hóa đơn</th> <!-- Thêm cột mới -->
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,11 @@
                             <td><%= payment.transaction_code || 'N/A' %></td>
                             <td><%= payment.status %></td>
                             <td><%= new Date(payment.payment_date).toLocaleString('vi-VN') %></td>
+                            <td>
+                                <a href="/profile/payment-history/<%= payment.id %>/invoice" target="_blank" class="btn btn-sm btn-primary">
+                                    Tải hóa đơn
+                                </a>
+                            </td>
                         </tr>
                     <% }); %>
                 </tbody>

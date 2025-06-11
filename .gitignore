@@ -4,3 +4,27 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .DS_Store
+# Thư mục log ứng dụng
+logs/
+*.log
+
+# Thư mục coverage khi chạy test
+coverage/
+
+# Thư mục build (nếu có build frontend hoặc transpile)
+build/
+dist/
+
+# File hệ thống của Linux
+*.swp
+*.swo
+
+# Thư mục database tạm (nếu có)
+tmp/
+
+# VSCode settings
+.vscode/
+
+# Jest cache
+jest-cache/
+jest-output/
